@@ -20,7 +20,6 @@ class App extends React.Component {
     $.ajax({
       url: '/mySongs', 
       success: (data) => {
-        console.log(data)
         this.setState({
           mySongs: data
         })
@@ -36,16 +35,23 @@ class App extends React.Component {
   }
 
   handleSubmit(event) {
-    alert('A name was submitted: ' + this.state.searchFormValue);
     event.preventDefault();
     $.ajax({
-      url: '/searchUG',
+      url: `/searchUG/${this.state.searchFormValue}`,
       success: (data) => {
-        console.log(data)
         this.setState({
           searchedSongs: data
-        })
+        }, () => console.log(this.state.searchedSongs))
       }
+    })
+  }
+
+  addSongToLibrary(songURL) {
+    $.ajax({
+      url: '/addSong',
+      method: 'POST',
+      data: {songURL: songURL},
+      datatype: 'json'
     })
   }
 

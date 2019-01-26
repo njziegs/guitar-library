@@ -1,4 +1,5 @@
 import React from 'react';
+import SearchList from './SearchList.jsx';
 
 class Search extends React.Component {
   constructor(props) {
@@ -10,13 +11,16 @@ class Search extends React.Component {
 
   render() {
     return (
-      <form onSubmit={this.props.handleSubmit}>
-        <label>
-          Search for an artist or song:
-          <input type="text" value={this.props.searchFormValue} onChange={this.props.handleChange} />
-        </label>
-        <input type="submit" value="Submit" />
-      </form>
+      <div>
+        <form onSubmit={this.props.handleSubmit}>
+          <label>
+            Search for an artist or song:
+            <input type="text" value={this.props.searchFormValue} onChange={this.props.handleChange} />
+          </label>
+          <input type="submit" value="Submit" />
+        </form>
+        <SearchList searchedSongs={this.props.searchedSongs}/>
+      </div>
     );
   }
 }

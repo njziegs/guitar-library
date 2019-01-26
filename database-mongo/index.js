@@ -37,18 +37,22 @@ var selectAll = function(callback) {
 };
 
 var addNewSong = function(song) {
-  var song = new LibraryModel({
-    artist: "yo",
-    name: "stuff",
-    url: "www.goog.com",
-    rating: 4,
-    numberRates: 32,
-    type: 'chords',
-    difficulty: 'easy',
-    tuning: 'EADG',
-    content: {text: 'lots of text'}
-  })
-  song.save()
+  // var newSong = new LibraryModel({
+  //   artist: "yo",
+  //   name: "stuff",
+  //   url: "www.goog.com",
+  //   rating: 4,
+  //   numberRates: 32,
+  //   type: 'chords',
+  //   difficulty: 'easy',
+  //   tuning: 'EADG',
+  //   content: {text: 'lots of text'}
+  // })
+  console.log('called new song')
+  console.log(song)
+
+  var newSong = new LibraryModel(song);
+  newSong.save()
      .then(doc => {
        console.log(doc)
      })

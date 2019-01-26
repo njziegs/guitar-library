@@ -1,12 +1,12 @@
 import React from 'react';
-import ListItem from './ListItem.jsx';
+import SearchListItem from './SearchListItem.jsx';
 
-const List = (props) => (
+const SearchList = (props) => (
   <div>
     <h4>  </h4>
-    You have { props.mySongs.length } songs saved in your library.
-    { props.mySongs.map(song => <ListItem song={song}/>)}
+    Here are { props.searchedSongs.length } search results.
+    { props.searchedSongs.map(song => <SearchListItem song={song}/>)}
   </div>
 )
 
-export default List;
+export default SearchList;

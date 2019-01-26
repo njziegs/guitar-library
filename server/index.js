@@ -7,6 +7,8 @@ var bodyParser = require('body-parser');
 var db = require('../database-mongo');
 
 var app = express();
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded())
 
 // UNCOMMENT FOR REACT
 app.use(express.static(__dirname + '/../react-client/dist'));
@@ -18,7 +20,7 @@ const ugs = require('ultimate-guitar-scraper');
 
 
 app.get('/mySongs', function (req, res) {
-	// let tabUrl = 'https://tabs.ultimate-guitar.com/n/nirvana/smells_like_teen_spirit_ver2_crd.htm';
+	// let tabUrl = 'https://tabs.ultimate-guitar.com/tab/pink_floyd/wish_you_were_here_chords_79226';
 	// let mockLibrary = [];
 	// ugs.get(tabUrl, (error, tab) => {
 	//   if (error) {
@@ -34,23 +36,40 @@ app.get('/mySongs', function (req, res) {
     if(err) {
       res.sendStatus(500);
     } else {
-      console.log(data);
+    //  console.log(data);
       res.json(data);
     }
   });
 });
 
-app.get('/searchUG', function (req, res) {
+app.get('/searchUG/:query', function (req, res) {
+	let searchQuery = req.params.query;
 	ugs.search({
-	  query: 'Wish You Were Here',
+	  query: searchQuery,
 	  page: 1,
 	  type: ['Tab', 'Chords', 'Guitar Pro']
 	}, (error, tabs) => {
 	  if (error) {
 	    console.log(error)
 	  } else {
-	    console.log(tabs);
 	    res.send(tabs.slice(0, 10));
+	  }
+	})
+})
+
+app.post('/addSong', function (req, res) {
+	console.log('server got add song reuqess')
+	let tabUrl = req.body.songURL;
+	console.log(req.body.songURL);
+	ugs.get(tabUrl, (error, tab) => {
+	  if (error) {
+	    console.log("Error getting from UGS:", error)
+	  } else {
+	  	console.log(tab);
+	  	db.addNewSong(tab);
+	  	// mockLibrary.push(tab)
+	   //  console.log(mockLibrary);
+	   //  res.send(mockLibrary);
 	  }
 	})
 })
