@@ -1,6 +1,6 @@
 import React from 'react';
 
-const ListItem = (props) => (
+const SearchListItem = (props) => (
   <div>
     { props.song.artist }
     <br></br>
@@ -14,4 +14,4 @@ const ListItem = (props) => (
   </div>
 )
 
-export default ListItem;
+export default SearchListItem;
