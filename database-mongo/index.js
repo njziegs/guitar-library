@@ -1,6 +1,7 @@
 var mongoose = require('mongoose');
 mongoose.connect('mongodb://localhost/guitarTabs');
 
+
 var db = mongoose.connection;
 
 db.on('error', function() {
@@ -20,7 +21,7 @@ var songLibrarySchema = new mongoose.Schema({
   type: String,
   difficulty: String,
   tuning: String,
-  content: {type: {type: String}}
+  content: {text: String}
 
 });
 
@@ -48,8 +49,9 @@ var addNewSong = function(song) {
   //   tuning: 'EADG',
   //   content: {text: 'lots of text'}
   // })
-  console.log('called new song')
-  console.log(song)
+  // console.log('called new song')
+  // console.log(song)
+
 
   var newSong = new LibraryModel(song);
   newSong.save()
@@ -58,8 +60,10 @@ var addNewSong = function(song) {
      })
      .catch(err => {
        console.error(err)
-     })
+     }) 
 }
+
+addNewSong()
 
 
 module.exports.selectAll = selectAll;

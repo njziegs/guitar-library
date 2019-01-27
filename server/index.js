@@ -34,6 +34,7 @@ app.get('/mySongs', function (req, res) {
 	//res.send()
   db.selectAll(function(err, data) {
     if(err) {
+    	console.log(err)
       res.sendStatus(500);
     } else {
     //  console.log(data);

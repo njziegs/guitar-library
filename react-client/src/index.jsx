@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom';
 import $ from 'jquery';
 import List from './components/List.jsx';
 import Search from './components/Search.jsx';
+import Tab from './components/Tab.jsx';
 
 class App extends React.Component {
   constructor(props) {
@@ -10,7 +11,8 @@ class App extends React.Component {
     this.state = { 
       mySongs: [],
       searchedSongs: [],
-      searchFormValue: ''
+      searchFormValue: '',
+      currentTab: ''
     }
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -30,6 +32,10 @@ class App extends React.Component {
     });
   }
 
+  setParentState() {
+    this.forceUpdate();
+  }
+
   handleChange(event) {
     this.setState({searchFormValue: event.target.value});
   }
@@ -46,6 +52,16 @@ class App extends React.Component {
     })
   }
 
+  setCurrentTab(id) {
+    for (var i = 0; i < this.state.mySongs.length; i++) {
+      let song = this.state.mySongs[i];
+      if (song._id === id) {
+        console.log(song)
+        this.setState({currentTab: song.content.text})
+      }
+    }
+  }
+
   addSongToLibrary(songURL) {
     $.ajax({
       url: '/addSong',
@@ -58,8 +74,9 @@ class App extends React.Component {
   render () {
     return (<div>
       <h1>My Library</h1>
-      <List mySongs={this.state.mySongs}/>
-      <Search searchedSongs = {this.state.searchedSongs} handleChange = {this.handleChange.bind(this)} handleSubmit = {this.handleSubmit.bind(this)} searchFormValue = {this.state.searchFormValue}/>
+      <List setCurrentTab={this.setCurrentTab.bind(this)} mySongs={this.state.mySongs}/>
+      <Search setParentState={this.setParentState.bind(this)} searchedSongs = {this.state.searchedSongs} handleChange = {this.handleChange.bind(this)} handleSubmit = {this.handleSubmit.bind(this)} searchFormValue = {this.state.searchFormValue}/>
+      <Tab currentTab={this.state.currentTab}/>
     </div>)
   }
 }

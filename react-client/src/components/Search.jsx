@@ -19,7 +19,7 @@ class Search extends React.Component {
           </label>
           <input type="submit" value="Submit" />
         </form>
-        <SearchList searchedSongs={this.props.searchedSongs}/>
+        <SearchList setParentState={this.props.setParentState} searchedSongs={this.props.searchedSongs}/>
       </div>
     );
   }

@@ -5,7 +5,7 @@ const SearchList = (props) => (
   <div>
     <h4>  </h4>
     Here are { props.searchedSongs.length } search results.
-    { props.searchedSongs.map(song => <SearchListItem song={song}/>)}
+    { props.searchedSongs.map(song => <SearchListItem setParentState={props.setParentState} song={song}/>)}
   </div>
 )
 

@@ -1,7 +1,7 @@
 import React from 'react';
 import $ from 'jquery';
 
-function handleClick(e, songURL) {
+function handleClick(e, songURL, props) {
   e.preventDefault();
   console.log(e);
   console.log(songURL);
@@ -11,7 +11,7 @@ function handleClick(e, songURL) {
     data: {songURL: songURL},
     dataType: 'json',
     success: function() {
-      console.log('success sending song url to server')
+      console.log('successfully added callback to click handler')
     }
   })
 }
@@ -27,8 +27,7 @@ const SearchListItem = (props) => (
     { props.song.rating }
     <br></br>
     { props.song.difficulty }
-    <br></br>
-    <a href='#' onClick={((e) => handleClick(e, props.song.url))}>Add song to my library</a>
+    <a href='#' onClick={((e) => handleClick(e, props.song.url, props))}>Add song to my library</a>
   </div>
 )
 
