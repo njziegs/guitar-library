@@ -10,10 +10,10 @@ class Tab extends React.Component {
 
   render() {
     return (
-      <div>
+      <div id='tab'>
         Current Tab:
         <br></br>
-        {this.props.currentTab}
+        <div dangerouslySetInnerHTML={{ __html: this.props.currentTab }} />
       </div>
     );
   }
