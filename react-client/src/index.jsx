@@ -4,6 +4,7 @@ import $ from 'jquery';
 import List from './components/List.jsx';
 import Search from './components/Search.jsx';
 import Tab from './components/Tab.jsx';
+import CustomTextInput from './components/CustomTextInput.jsx'
 
 class App extends React.Component {
   constructor(props) {
@@ -71,12 +72,28 @@ class App extends React.Component {
     })
   }
 
+  findHighlightedText() {
+    var selection= window.getSelection().getRangeAt(0);
+    var selectedText = selection.extractContents();
+    console.log(selection)
+    console.log(selectedText)
+     var span= document.createElement("span");
+     span.style.backgroundColor = "yellow";
+     span.appendChild(selectedText);
+     selection.insertNode(span);
+
+  }
+
   render () {
     return (<div>
       <h1>My Library</h1>
+      <button onClick={this.findHighlightedText.bind(this)}>
+        findHighlightedText
+      </button>
       <List setCurrentTab={this.setCurrentTab.bind(this)} mySongs={this.state.mySongs}/>
       <Search setParentState={this.setParentState.bind(this)} searchedSongs = {this.state.searchedSongs} handleChange = {this.handleChange.bind(this)} handleSubmit = {this.handleSubmit.bind(this)} searchFormValue = {this.state.searchFormValue}/>
       <Tab currentTab={this.state.currentTab}/>
+      <CustomTextInput/>
     </div>)
   }
 }

@@ -56,7 +56,7 @@ var addNewSong = function(song) {
   var newSong = new LibraryModel(song);
   newSong.save()
      .then(doc => {
-       console.log(doc)
+    //   console.log(doc)
      })
      .catch(err => {
        console.error(err)

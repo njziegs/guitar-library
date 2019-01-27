@@ -60,13 +60,6 @@ app.get('/searchUG/:query', function (req, res) {
 	})
 })
 
-app.get('/cleanTab', function (req, res) {
-	let dirtyTab = { text: '---------------------\n POOL ~ QUARTERBACKS\n---------------------\n\nTuning: Standard\n(He actually plays without a high E string)\n\n  Riff Thing\nB|---3--1--0---------------|\nG|------------2--4--2--0---|\nD|-------------------------|\nA|-------------------------|\nE|-------------------------|\n\n  Chords   [ch]G[/ch]   [ch]C[/ch]   [ch]D[/ch]  [ch]C7M[/ch] [ch]G7M[/ch] [ch]G/D[/ch]\nB|---------0---0---3---0---0---0---|\nG|---------0---0---2---0---0---0---|\nD|---------0---2---0---2---4---8---|\nA|---------2---3-------3---5--10---|\nE|---------3-----------3---5--10---|\n\n                      [ch]G[/ch]\nI THOUGHT I\'D SEE YOU AROUND \n\n                         [ch]C[/ch]\nNOT EVERY DAY BUT PRETTY OFTEN \n\n                               [ch]D[/ch]\nNOW THAT YOU\'RE REALLY LEAVING TOWN \n\n                            [ch]C[/ch]\nI JUST WISH I HAD BEEN MORE HONEST \n\n                  [ch]G[/ch]\nREMEMBER OVER THE SUMMER \n\n                      [ch]C[/ch] \nWHEN I FIRST GOT YOUR NUMBER\n\n                           [ch]D[/ch] \nI THOUGHT THAT WE COULD BE FRIENDS \n\n                   [ch]C[/ch]\nOR MAYBE SOMETHING BETTER \n\n\n\n         [ch]C7M[/ch]\nMY HEART SKIPPED \n\n       [ch]G7M[/ch]\nIN NEW BRUNSWICK \n\n             [ch]G/D[/ch]\nYOU WERE ALL SWIMMING \n\n              [ch]C7M[/ch]\nAND I FELT SO HOMESICK \n\n\nWALKED TO DEV\'S CAR \n\n          [ch]G7M[/ch]\nTO MAKE A PHONE CALL \n\n               [ch]G/D[/ch]\nBUT YOU DIDN\'T PICK UP \n\n              [ch]C7M[/ch]\nAND I FELT SO DESPERATE \n\n\nIN THE BACKSEAT \n\n         [ch]G7M[/ch]\nSWIMSUIT DRIPPING \n\n         [ch]G/D[/ch]\nI MADE A PROMISE \n\n                 [ch]C7M[/ch]\nTHAT WHEN WE GOT BACK TO POUGHKEEPSIE \n\n\nI WOULDN\'T CALL YOU \n\n         [ch]G7M[/ch]\nWOULDN\'T INVOLVE YOU \n\n  [ch]G/D[/ch]\nI GUESS \n\n                  [ch]C7M[/ch]\nYOU WERE JUST TOO BUSY \n\n\n\n                        [ch]G[/ch]\nONE TIME I SHOWED YOU A SONG \n\n                             [ch]C[/ch]\nYOU ONLY THOUGHT THAT IT WAS KIND OF GOOD \n\n                  [ch]D[/ch]\nI NEVER PLAYED IT AGAIN\n \n                     [ch]C[/ch]\nIT WASN\'T EVEN ABOUT YOU\n\n\n' };
-	//let cleanTab = parser.tabs(dirtyTab.text);
-	let cleanText = dirtyTab.text.replace(/(?:\r\n|\r|\n)/g, '<br>');
-	let cleanTab = {text: cleanText}
-	res.send(cleanTab);
-})
 
 app.post('/addSong', function (req, res) {
 	console.log('server got add song reuqess')
@@ -79,9 +72,38 @@ app.post('/addSong', function (req, res) {
 	  	// tab = parser.tabs(tab.content.text);
 	  	// tab.cleanTab = cleanTab;
 	  //	console.log(parser.tabs(tab.content.text));
+	    let counter = 0;
 	    let dirtyTab = tab.content.text;
-	    let cleanTab = dirtyTab.replace(/(?:\r\n|\r|\n)/g, '<br>');
-	    tab.content.text = cleanTab;
+	    let cleanTab = dirtyTab.replace(/(?:\r\n|\r|\n)/g, `<br>`);
+	    console.log('Clean tab: ', cleanTab)
+	    var linesArray = cleanTab.split('<br>');
+	   // console.log('linesArray after split, ', linesArray)
+	  //  linesArray = linesArray.join('<br>');
+	   // console.log('linesArray after join, ', linesArray)
+	   var results = [];
+	    for (var i = 0; i < linesArray.length; i++) {
+	    	var row = linesArray[i].split('');
+	    	//console.log(row)
+	    	for (var j = 0; j < row.length; j++) {
+	    		row[j] = `<span id=${counter}>${row[j]}</span>`;
+	    		console.log('our new spanned character:', row[j])
+	    	  counter++;
+	    	}
+	    	row = row.join('');
+	    	results.push(row);
+	    	console.log('Individual row, prior to joining all together ',row)
+	    }
+	    results = results.join('<br>');
+	   // console.log('Results: ', results)
+
+	    // for (var i = 0; i < cleanTab.length; i++) {
+	    // 	cleanTab[i] = `<span id=${i}>cleanTab[i]</span>`
+	    // }
+	    //console.log('Prior to joining: ', linesArray)
+	    linesArray = linesArray.join('<br>');
+	   // console.log('cleanTab tab ', cleanTab)
+	  //  console.log('linesArray tab', linesArray)
+	    tab.content.text = results;
 	  	db.addNewSong(tab);
 	  //	res.send(parser.tabs(tab.content.text))
 	  	// mockLibrary.push(tab)
