@@ -68,47 +68,30 @@ app.post('/addSong', function (req, res) {
 	  if (error) {
 	    console.log("Error getting from UGS:", error)
 	  } else {
-	  	// console.log(tab);
-	  	// tab = parser.tabs(tab.content.text);
-	  	// tab.cleanTab = cleanTab;
-	  //	console.log(parser.tabs(tab.content.text));
+
 	    let counter = 0;
 	    let dirtyTab = tab.content.text;
 	    let cleanTab = dirtyTab.replace(/(?:\r\n|\r|\n)/g, `<br>`);
-	    console.log('Clean tab: ', cleanTab)
 	    var linesArray = cleanTab.split('<br>');
-	   // console.log('linesArray after split, ', linesArray)
-	  //  linesArray = linesArray.join('<br>');
-	   // console.log('linesArray after join, ', linesArray)
+
 	   var results = [];
 	    for (var i = 0; i < linesArray.length; i++) {
 	    	var row = linesArray[i].split('');
-	    	//console.log(row)
+
 	    	for (var j = 0; j < row.length; j++) {
-	    		row[j] = `<span id=${counter}>${row[j]}</span>`;
-	    		console.log('our new spanned character:', row[j])
+	    		row[j] = `<span id=${counter} className='hello'>${row[j]}</span>`;
 	    	  counter++;
 	    	}
 	    	row = row.join('');
 	    	results.push(row);
-	    	console.log('Individual row, prior to joining all together ',row)
 	    }
 	    results = results.join('<br>');
-	   // console.log('Results: ', results)
 
-	    // for (var i = 0; i < cleanTab.length; i++) {
-	    // 	cleanTab[i] = `<span id=${i}>cleanTab[i]</span>`
-	    // }
-	    //console.log('Prior to joining: ', linesArray)
 	    linesArray = linesArray.join('<br>');
-	   // console.log('cleanTab tab ', cleanTab)
-	  //  console.log('linesArray tab', linesArray)
+
 	    tab.content.text = results;
 	  	db.addNewSong(tab);
-	  //	res.send(parser.tabs(tab.content.text))
-	  	// mockLibrary.push(tab)
-	   //  console.log(mockLibrary);
-	   //  res.send(mockLibrary);
+
 	  }
 	})
 })

@@ -21,7 +21,9 @@ var songLibrarySchema = new mongoose.Schema({
   type: String,
   difficulty: String,
   tuning: String,
-  content: {text: String}
+  content: {text: String},
+  notes: {text: String},
+  notesCount: Number
 
 });
 

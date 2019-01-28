@@ -1,4 +1,5 @@
 import React from 'react';
+import ReactHtmlParser, { processNodes, convertNodeToElement, htmlparser2 } from 'react-html-parser';
 
 class Tab extends React.Component {
   constructor(props) {
@@ -18,25 +19,9 @@ class Tab extends React.Component {
   }
 
   render() {
-    return (
-      <div id='tab'>
-        Current Tab:
-        <br></br>
-        <div 
-          ref='myTextArea' 
-          onMouseDown={(event)=>{
-            this.setState({
-              textareaVal:event.target.value
-            }, () => {console.log(this.state.textareaStartVal)})
-          }}
-          onMouseUp={(event)=>{
-            this.setState({
-              textareaVal:event.target.value
-            }, () => {console.log(this.state.textAreaEndVal)})
-          }}
-          dangerouslySetInnerHTML={{ __html: this.props.currentTab }} />
-      </div>
-    );
+    let fullReact = ReactHtmlParser(this.props.currentTab);
+    // fullReact.replace('classname', '')
+    return <div>{ ReactHtmlParser(this.props.currentTab) }</div>;
   }
 }
 
