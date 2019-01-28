@@ -73,14 +73,46 @@ class App extends React.Component {
   }
 
   findHighlightedText() {
-    var selection= window.getSelection().getRangeAt(0);
-    var selectedText = selection.extractContents();
-    console.log(selection)
-    console.log(selectedText)
-     var span= document.createElement("span");
-     span.style.backgroundColor = "yellow";
-     span.appendChild(selectedText);
-     selection.insertNode(span);
+    // var selection= window.getSelection().getRangeAt(0);
+    // var selectedText = selection.extractContents();
+    // console.log(selection)
+    // console.log(selectedText)
+    //  var span= document.createElement("span");
+    //  span.style.backgroundColor = "yellow";
+    //  span.appendChild(selectedText);
+    //  selection.insertNode(span);
+    let sel = window.getSelection();
+    let focus = sel.focusNode.parentNode.id;
+    let anchor = sel.anchorNode.parentNode.id;
+    let start = `<span id=${(Math.min(focus, anchor))}>`;
+    let end = `<span id=${(Math.max(focus, anchor) + 1)}>`;
+    
+    let tab = this.state.currentTab;
+ 
+    RegExp.quote = function(str) {
+    return str.replace(/([.?*+^$[\]\\(){}|-])/g, "\\$1")};
+    // str1 = "pattern"
+    // var re = new RegExp(start, "g");
+    // tab.replace(re, "regex");
+    var regExStart = new RegExp(RegExp.quote(start), "g");
+    tab = tab.replace(regExStart, `<span id=${(Math.min(focus, anchor))}><a href>`);
+
+    var regExEnd = new RegExp(RegExp.quote(end), "g");
+    tab = tab.replace(regExEnd, `</a><span id=${(Math.max(focus, anchor))}>`);
+
+
+    console.log(tab);
+
+    // tab.splice(selectedStringEnd + 1, 0, '</a>');
+    // tab.splice(selectedStringStart - 1, 0, '<a href = "www.google.com">');
+
+    
+    // var replace = "regex";
+    // var re = new RegExp(replace,"g");
+
+    // str1 = "."
+    // var re = new RegExp(RegExp.quote(start), "g");
+    // .replace(re, "regex");
 
   }
 
