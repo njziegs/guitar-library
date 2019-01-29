@@ -7,8 +7,10 @@ var bodyParser = require('body-parser');
 var db = require('../database-mongo');
 
 var app = express();
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded())
+app.use(bodyParser.json({limit: '50mb'}));
+app.use(bodyParser.urlencoded({limit: '50mb'}))
+// app.use(express.json({limit: '50mb'}));
+// app.use(express.urlencoded({limit: '50mb'}));
 
 // UNCOMMENT FOR REACT
 app.use(express.static(__dirname + '/../react-client/dist'));
@@ -79,7 +81,7 @@ app.post('/addSong', function (req, res) {
 	    	var row = linesArray[i].split('');
 
 	    	for (var j = 0; j < row.length; j++) {
-	    		row[j] = `<span id=${counter} className='hello'>${row[j]}</span>`;
+	    		row[j] = `<span id=${counter}>${row[j]}</span>`;
 	    	  counter++;
 	    	}
 	    	row = row.join('');
@@ -90,10 +92,18 @@ app.post('/addSong', function (req, res) {
 	    linesArray = linesArray.join('<br>');
 
 	    tab.content.text = results;
+	    tab.notes = [];
 	  	db.addNewSong(tab);
 
 	  }
 	})
+})
+
+app.put('/mySongs/update/:id', function (req, res) {
+	console.log("Server got put request")
+	let id = req.params.id;
+	console.log(req.body)
+	db.updateSong(req.body)
 })
 
 app.listen(3000, function() {

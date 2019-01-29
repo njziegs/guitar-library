@@ -22,8 +22,6 @@ const SearchListItem = (props) => (
     <br></br>
     { props.song.name }
     <br></br>
-    { props.song.url }
-    <br></br>
     { props.song.rating }
     <br></br>
     { props.song.difficulty }

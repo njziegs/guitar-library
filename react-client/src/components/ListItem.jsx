@@ -12,10 +12,6 @@ const ListItem = (props) => (
     <br></br>
     { props.song.name }
     <br></br>
-    { props.song.rating }
-    <br></br>
-    { props.song.difficulty }
-    <br></br>
     <a href='#' onClick={((e) => handleClick(e, props.song._id, props))}>Check out the tabs!</a>
   </div>
 )

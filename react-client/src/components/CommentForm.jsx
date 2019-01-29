@@ -16,7 +16,7 @@ class CommentForm extends React.Component {
   handleSubmit(event) {
     event.preventDefault();
     console.log(this.props.findHighlightedText)
-    this.props.findHighlightedText();
+    this.props.findHighlightedText(this.state.value);
   }
 
   render() {
@@ -24,7 +24,7 @@ class CommentForm extends React.Component {
       <div className='comment-form'>
         <form onSubmit={this.handleSubmit}>
           <label>
-            Comment
+            Add your note here
             <input type="text" value={this.state.value} onChange={this.handleChange} />
           </label>
           <input type="submit" value="Submit" />

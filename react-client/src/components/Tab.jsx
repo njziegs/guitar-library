@@ -21,7 +21,7 @@ class Tab extends React.Component {
   render() {
     let fullReact = ReactHtmlParser(this.props.currentTab);
     // fullReact.replace('classname', '')
-    return <div>{ ReactHtmlParser(this.props.currentTab) }</div>;
+    return <div id='tab'>{ ReactHtmlParser(this.props.currentTab) }</div>;
   }
 }
 

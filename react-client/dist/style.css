@@ -7,6 +7,10 @@
 	background-color: yellow;
 }
 
-#notes_0 {
+/*#notes_0 {
   background-color: yellow;
+}*/
+
+span[id^="notes_"], span[id*=" notes_"] {
+    background-color: yellow;
 }
