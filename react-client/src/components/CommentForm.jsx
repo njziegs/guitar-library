@@ -21,13 +21,12 @@ class CommentForm extends React.Component {
 
   render() {
     return (
-      <div className='comment-form'>
+      <div id='comment-form'>
         <form onSubmit={this.handleSubmit}>
           <label>
-            Add your note here
-            <input type="text" value={this.state.value} onChange={this.handleChange} />
+            <input id='notes-input' placeholder='Add a note here' type="text" value={this.state.value} onChange={this.handleChange} />
           </label>
-          <input type="submit" value="Submit" />
+          <input id='notes-submit' type="submit" value="Save" />
         </form>
       </div>
     );

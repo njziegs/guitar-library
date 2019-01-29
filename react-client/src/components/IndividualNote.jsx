@@ -7,9 +7,9 @@ function handleClick(e, id, props) {
 }
 
 const IndividualNote = (props) => (
-  <div>
-    {props.note}
-  </div>
+
+    <li className='note'>{props.note}</li>
+
 )
 
 export default IndividualNote;

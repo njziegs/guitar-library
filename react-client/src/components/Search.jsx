@@ -11,13 +11,12 @@ class Search extends React.Component {
 
   render() {
     return (
-      <div>
+      <div id='search-bar'>
         <form onSubmit={this.props.handleSubmit}>
-          <label>
-            Search for an artist or song:
-            <input type="text" value={this.props.searchFormValue} onChange={this.props.handleChange} />
+          <label id='search-label'>
+            <input id='search-input' type="text" placeholder="Search UG for song/artist" value={this.props.searchFormValue} onChange={this.props.handleChange} />
           </label>
-          <input type="submit" value="Submit" />
+          <input id='search-submit' type="submit" value="GO!" />
         </form>
         <SearchList setParentState={this.props.setParentState} searchedSongs={this.props.searchedSongs}/>
       </div>

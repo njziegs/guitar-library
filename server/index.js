@@ -1,47 +1,21 @@
-var express = require('express');
-var bodyParser = require('body-parser');
-// UNCOMMENT THE DATABASE YOU'D LIKE TO USE
-// var items = require('../database-mysql');
-
-//MONGO!
-var db = require('../database-mongo');
+const express = require('express');
+const bodyParser = require('body-parser');
+const db = require('../database-mongo');
+const ugs = require('ultimate-guitar-scraper');
+const parser = require('./parser.js');
 
 var app = express();
+
 app.use(bodyParser.json({limit: '50mb'}));
 app.use(bodyParser.urlencoded({limit: '50mb'}))
-// app.use(express.json({limit: '50mb'}));
-// app.use(express.urlencoded({limit: '50mb'}));
-
-// UNCOMMENT FOR REACT
 app.use(express.static(__dirname + '/../react-client/dist'));
 
-//TEMPORARY - BYPASSING DATABASE, JUST PULLING STRAIGHT FROM UG:
-
-const ugs = require('ultimate-guitar-scraper');
-
-var parser = require('./parser.js');
-
-
-
 app.get('/mySongs', function (req, res) {
-	// let tabUrl = 'https://tabs.ultimate-guitar.com/tab/pink_floyd/wish_you_were_here_chords_79226';
-	// let mockLibrary = [];
-	// ugs.get(tabUrl, (error, tab) => {
-	//   if (error) {
-	//     console.log(error)
-	//   } else {
-	//   	mockLibrary.push(tab)
-	//     console.log(mockLibrary);
-	//     res.send(mockLibrary);
-	//   }
-	// })
-	//res.send()
   db.selectAll(function(err, data) {
     if(err) {
     	console.log(err)
       res.sendStatus(500);
     } else {
-    //  console.log(data);
       res.json(data);
     }
   });
@@ -57,50 +31,50 @@ app.get('/searchUG/:query', function (req, res) {
 	  if (error) {
 	    console.log(error)
 	  } else {
-	    res.send(tabs.slice(0, 10));
+	    res.send(tabs.slice(0, 20));
 	  }
 	})
 })
 
 
 app.post('/addSong', function (req, res) {
-	console.log('server got add song reuqess')
 	let tabUrl = req.body.songURL;
 	ugs.get(tabUrl, (error, tab) => {
 	  if (error) {
 	    console.log("Error getting from UGS:", error)
 	  } else {
 
+	  	//PARSE JSON INTO HTML
 	    let counter = 0;
 	    let dirtyTab = tab.content.text;
 	    let cleanTab = dirtyTab.replace(/(?:\r\n|\r|\n)/g, `<br>`);
 	    var linesArray = cleanTab.split('<br>');
 
-	   var results = [];
-	    for (var i = 0; i < linesArray.length; i++) {
-	    	var row = linesArray[i].split('');
+			var results = [];
+			for (var i = 0; i < linesArray.length; i++) {
+					var row = linesArray[i].split('');
 
-	    	for (var j = 0; j < row.length; j++) {
-	    		row[j] = `<span id=${counter}>${row[j]}</span>`;
-	    	  counter++;
-	    	}
-	    	row = row.join('');
-	    	results.push(row);
-	    }
+					for (var j = 0; j < row.length; j++) {
+						row[j] = `<span id=${counter}>${row[j]}</span>`;
+					  counter++;
+					}
+					row = row.join('');
+					results.push(row);
+			}
+
 	    results = results.join('<br>');
 
 	    linesArray = linesArray.join('<br>');
 
+	    //ADD A NOTES PROPERTY, SET TEXT PROPERT
 	    tab.content.text = results;
 	    tab.notes = [];
 	  	db.addNewSong(tab);
-
 	  }
 	})
 })
 
 app.put('/mySongs/update/:id', function (req, res) {
-	console.log("Server got put request")
 	let id = req.params.id;
 	console.log(req.body)
 	db.updateSong(req.body)

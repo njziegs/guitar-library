@@ -1,5 +1,6 @@
 import React from 'react';
-import IndividualNote from './IndividualNote.jsx'
+import IndividualNote from './IndividualNote.jsx';
+import CommentForm from './CommentForm.jsx'
 
 class Notes extends React.Component {
   constructor(props) {
@@ -12,10 +13,11 @@ class Notes extends React.Component {
 
   render() {
     return (
-      <div>
-        <h4>Notes for this Song</h4>
-        You have { this.props.currentNotes.length } notes about this song.
-        { this.props.currentNotes.map(note => <IndividualNote note={note}/>)}
+      <div id='notes'>
+        My Notes ({ this.props.notes.length })
+        <ul id='notes-header'>{ this.props.notes.map(note => <IndividualNote note={note}/>)}
+          <li className='note'> <CommentForm findHighlightedText={this.findHighlightedText}/></li>
+        </ul>
       </div>
     )
   }

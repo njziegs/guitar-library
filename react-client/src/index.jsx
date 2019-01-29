@@ -5,8 +5,9 @@ import List from './components/List.jsx';
 import Search from './components/Search.jsx';
 import Tab from './components/Tab.jsx';
 import CustomTextInput from './components/CustomTextInput.jsx';
-import CommentForm from './components/CommentForm.jsx';
+import Nav from './components/Nav.jsx';
 import Notes from './components/Notes.jsx';
+import CommentForm from './components/CommentForm.jsx';
 
 class App extends React.Component {
   constructor(props) {
@@ -16,16 +17,19 @@ class App extends React.Component {
       searchedSongs: [],
       searchFormValue: '',
       currentSong: {
+        artist: '',
+        title: '',
         content: {text: ''},
         notes: ['Hardcorded note', 'Note2'],
         notesCount: 2
       },
       currentComment: '',
-      showNotes: false
+      showTab: false,
+      showLibrary: false,
+      commentNodes: []
     }
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
-    this.displayNote = this.displayNote.bind(this);
   }
 
   componentDidMount() {
@@ -40,6 +44,10 @@ class App extends React.Component {
         console.log('err', err);
       }
     });
+  }
+
+  toggleLibrary() {
+    this.setState({showLibrary: !this.state.showLibrary})
   }
 
   setParentState() {
@@ -57,7 +65,7 @@ class App extends React.Component {
       success: (data) => {
         this.setState({
           searchedSongs: data
-        }, () => console.log(this.state.searchedSongs))
+        }, this.setState({showTab: false}))
       }
     })
   }
@@ -71,7 +79,12 @@ class App extends React.Component {
           console.log(this.state.mySongs[i]);
         }
        // this.setState({currentTab: song.content.text})
-        this.setState({currentSong: song})
+        this.setState({currentSong: song}, 
+          this.setState({showTab: true},
+            this.setState({searchedSongs: []},
+              this.setState({showLibrary: false}))
+          )
+        )
       }
     }
   }
@@ -85,13 +98,6 @@ class App extends React.Component {
     })
   }
 
-  displayNote() {
-    // e.preventDefault();
-
-    console.log("highlighed note clicked!");
-    console.log(e.target)
-  }
-
   findHighlightedText(note) {
     console.log('called')
 
@@ -100,7 +106,6 @@ class App extends React.Component {
     let anchor = sel.anchorNode.parentNode.id;
     let start = `<span id=${(Math.min(focus, anchor))}>`;
     let end = `<span id=${(Math.max(focus, anchor) + 1)}>`;
-    
     let tab = this.state.currentSong.content.text;
  
     RegExp.quote = function(str) {
@@ -114,9 +119,13 @@ class App extends React.Component {
 
     let editedSong = this.state.currentSong;
     editedSong.content.text = tab;
-    editedSong.notes.push('dummy note');
+    editedSong.notes.push(note);
+
     this.setState({currentSong: editedSong});
-    console.log(editedSong);
+
+    let comments = this.state.commentNodes;
+    comments.push(end);
+    this.setState({commentNodes: comments})
 
     $.ajax({
         type:'PUT',
@@ -125,31 +134,26 @@ class App extends React.Component {
     }).done(function(response){
         console.log(response);
       })
-
-
-
-    // tab.splice(selectedStringEnd + 1, 0, '</a>');
-    // tab.splice(selectedStringStart - 1, 0, '<a href = "www.google.com">');
-
-    
-    // var replace = "regex";
-    // var re = new RegExp(replace,"g");
-
-    // str1 = "."
-    // var re = new RegExp(RegExp.quote(start), "g");
-    // .replace(re, "regex");
-
   }
 
   render () {
-    return (<div>
-      <h1>My Library</h1>
-      <List setCurrentTab={this.setCurrentTab.bind(this)} mySongs={this.state.mySongs}/>
-      <Search setParentState={this.setParentState.bind(this)} searchedSongs = {this.state.searchedSongs} handleChange = {this.handleChange.bind(this)} handleSubmit = {this.handleSubmit.bind(this)} searchFormValue = {this.state.searchFormValue}/>
-      <Tab displayNote={this.displayNote.bind(this)} currentTab={this.state.currentSong.content.text}/>
-      <CommentForm findHighlightedText={this.findHighlightedText.bind(this)}/>
+    return (
+      <div>
+        <Search setParentState={this.setParentState.bind(this)} searchedSongs = {this.state.searchedSongs} handleChange = {this.handleChange.bind(this)} handleSubmit = {this.handleSubmit.bind(this)} searchFormValue = {this.state.searchFormValue}/>
+          <List showLibrary={this.state.showLibrary} toggleLibrary={this.toggleLibrary.bind(this)} setCurrentTab={this.setCurrentTab.bind(this)} mySongs={this.state.mySongs}/>
+       
+          {this.state.currentSong.content.text === '' || this.state.showTab === false 
+            ? null 
+            : <div>
+                <div id='comments'>
+                  <Notes findHighlightedText={this.findHighlightedText.bind(this)} notes={this.state.currentSong.notes} />
+                </div>
+                <Tab notes={this.state.currentSong.notes} title={this.state.currentSong}  currentTab={this.state.currentSong.content.text}/>
+              </div>
+          }
 
-    </div>)
+      </div>
+    )
   }
 }
 

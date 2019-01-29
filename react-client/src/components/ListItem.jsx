@@ -7,13 +7,10 @@ function handleClick(e, id, props) {
 }
 
 const ListItem = (props) => (
-  <div>
-    { props.song.artist }
-    <br></br>
-    { props.song.name }
-    <br></br>
-    <a href='#' onClick={((e) => handleClick(e, props.song._id, props))}>Check out the tabs!</a>
-  </div>
+  <li className='library-item'>
+    <h3>{ props.song.artist }</h3>
+    <p>{ props.song.name } | <a href='#' onClick={((e) => handleClick(e, props.song._id, props))}>View tabs</a> </p>
+  </li>
 )
 
 export default ListItem;

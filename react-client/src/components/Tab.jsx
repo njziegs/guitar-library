@@ -1,6 +1,9 @@
 import React from 'react';
 import ReactHtmlParser, { processNodes, convertNodeToElement, htmlparser2 } from 'react-html-parser';
 
+import CommentForm from './CommentForm.jsx';
+
+
 class Tab extends React.Component {
   constructor(props) {
     super(props);
@@ -10,18 +13,14 @@ class Tab extends React.Component {
     }
   }
 
-  getPosition() {
-    let textVal = this.refs.myTextarea; 
-    let cursorStart = textVal.selectionStart;
-    let cursorEnd = textVal.selectionEnd;
-    // this.state.textareaVal.substring(cursorStart,cursorEnd) 
-    console.log(this.state.textareaVal)
-  }
-
   render() {
     let fullReact = ReactHtmlParser(this.props.currentTab);
-    // fullReact.replace('classname', '')
-    return <div id='tab'>{ ReactHtmlParser(this.props.currentTab) }</div>;
+    return (
+      <div id='tab-container'>
+        <div id='tab-title'> {this.props.title.artist} - {this.props.title.name} </div>
+        <div id='tab'>{ ReactHtmlParser(this.props.currentTab) }</div>
+      </div>
+      )
   }
 }
 

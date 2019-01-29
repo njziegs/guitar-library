@@ -9,24 +9,21 @@ function handleClick(e, songURL, props) {
     method: 'POST',
     url: 'http://localhost:3000/addSong',
     data: {songURL: songURL},
-    dataType: 'json',
-    success: function() {
-      console.log('successfully added callback to click handler')
-    }
+    dataType: 'json'
   })
 }
 
 const SearchListItem = (props) => (
-  <div>
-    { props.song.artist }
+  <li className='search-result'><a href='#'>
+    <b>{ props.song.artist }</b>
     <br></br>
     { props.song.name }
     <br></br>
-    { props.song.rating }
+    Rating: { props.song.rating }
     <br></br>
-    { props.song.difficulty }
-    <a href='#' onClick={((e) => handleClick(e, props.song.url, props))}>Add song to my library</a>
-  </div>
+    Number of Ratings: {props.song.numberRates}
+    <a href='#' onClick={((e) => handleClick(e, props.song.url, props))}>Add song to my library</a></a>
+  </li>
 )
 
 export default SearchListItem;

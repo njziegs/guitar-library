@@ -1,16 +1,228 @@
+
+@import "compass/css3";
+
 #tab {
 	font-size: 16px;
-  font-family: "Roboto Mono", monospace;
+  font-family: "Roboto Mono", monospace
 }
 
 .highlight {
 	background-color: yellow;
 }
 
-/*#notes_0 {
-  background-color: yellow;
-}*/
+
 
 span[id^="notes_"], span[id*=" notes_"] {
     background-color: yellow;
 }
+
+
+
+
+ul.library-title {
+  position: absolute;
+  width: 300px;
+  display: inline-block;
+  z-index: 10;
+}
+
+h2 {
+  font: bold 24px/1.5 Helvetica, Verdana, sans-serif;
+}
+
+h2:hover {
+  background: #eee;
+  cursor: pointer;
+}
+
+h3 {
+  font: bold 20px/1.5 Helvetica, Verdana, sans-serif;
+}
+
+
+li.library-item p {
+  font: 200 12px/1.5 Helvetica, Verdana, sans-serif;
+}
+
+li.library-item {
+  padding: 10px;
+  overflow: auto;
+  background-color: white;
+    border-bottom: 1px solid #aaa;
+}
+
+li.library-item:hover {
+  background: #eee;
+  cursor: pointer;
+}
+
+/**/
+
+* {margin: 0; padding: 0;}
+
+nav {
+  margin: 50px;
+}
+
+ul.nav-bar {
+  overflow: auto;
+  list-style-type: none;
+}
+
+li.nav {
+  height: 25px;
+  float: left;
+  margin-right: 0px;
+  border-right: 1px solid #aaa;
+  padding: 0 20px;
+  position: relative;
+}
+
+li.nav:last-child {
+  border-right: none;
+}
+
+
+#tab-container {
+	margin-left: 310px;
+	float: left;
+}
+
+#container {
+	display: inline-block;
+}
+
+#search-bar {
+	margin-left: 36%;
+}
+
+#comment-form {
+	float: left;
+	font: 200 20px/1.5 Helvetica, Verdana, sans-serif;
+}
+
+li.nav a {
+  text-decoration: none;
+  color: #ccc;
+  font: 25px/1 Helvetica, Verdana, sans-serif;
+  text-transform: uppercase;
+  -webkit-transition: all 0.5s ease;
+}
+
+li.nav a:hover {
+  color: #666;
+}
+
+li.active a {
+  font-weight: bold;
+  color: #333;
+}
+
+/**/
+
+
+div#results {
+  width: 200px;
+  margin: 30px;
+}
+
+h2#search {
+  font: 400 40px/1.5 Helvetica, Verdana, sans-serif;
+  margin: 0;
+  padding: 0;
+}
+
+div#notes {
+	  font: 200 20px/1.5 Helvetica, Verdana, sans-serif;
+	    position: absolute;
+  width: 300px;
+  display: inline-block;
+  z-index: 10;
+  margin-left: 800px;
+  margin-top: 80px;
+}
+
+li.search-result, li.note {
+  font: 200 20px/1.5 Helvetica, Verdana, sans-serif;
+  border-bottom: 1px solid #ccc;
+}
+
+li.search-result:last-child, li.note:last-child {
+  border: none;
+}
+
+li.search-result a, li.note a {
+  text-decoration: none;
+  color: #000;
+
+  -webkit-transition: font-size 0.3s ease, background-color 0.3s ease;
+  -moz-transition: font-size 0.3s ease, background-color 0.3s ease;
+  -o-transition: font-size 0.3s ease, background-color 0.3s ease;
+  -ms-transition: font-size 0.3s ease, background-color 0.3s ease;
+  transition: font-size 0.3s ease, background-color 0.3s ease;
+  display: block;
+  width: 400px;
+}
+
+ul#search-results-list {
+  list-style-type: none;
+  display: inline-block;
+  position: relative;
+}
+
+li.search-result a:hover, li.note a:hover  {
+  font-size: 22px;
+  background: #f6f6f6;
+}
+
+#search-label {
+  font: 200 20px/1.5 Helvetica, Verdana, sans-serif;
+  padding-bottom: 5px;
+  border-bottom: 1px solid #ccc;
+}
+
+#search-input {
+	width: 300px;
+	height: 30px;
+	padding: 15px 22px;
+	font: 200 20px/1.5 Helvetica, Verdana, sans-serif;
+}
+
+#search-submit {
+    border: 1px solid #aaa;
+  	font: 200 20px/1.5 Helvetica, Verdana, sans-serif;
+    color: black;
+	padding: 15px 22px;
+    text-decoration: none;
+    cursor: pointer;  
+}
+
+#library-header-title {
+	display: inline-block;
+	position: absolute;
+	margin-left: 20px;
+	margin-top: -50px;
+	font: 200 20px/1.5 Helvetica, Verdana, sans-serif;
+}
+
+#tab-title {
+	display: inline-block;
+	text-align: center;
+	font: 200 30px/1.5 Helvetica, Verdana, sans-serif;
+}
+
+#notes-input {
+	width: 150px;
+	height: 24px;
+	font: 200 20px/1.5 Helvetica, Verdana, sans-serif;
+}
+
+#notes-submit {
+    border: 1px solid #aaa;
+  	font: 150 20px/1.5 Helvetica, Verdana, sans-serif;
+    color: black;
+
+    text-decoration: none;
+    cursor: pointer;  
+}
+
