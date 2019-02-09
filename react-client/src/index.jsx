@@ -20,8 +20,8 @@ class App extends React.Component {
         artist: '',
         title: '',
         content: {text: ''},
-        notes: ['Hardcorded note', 'Note2'],
-        notesCount: 2
+        notes: [''],
+        notesCount: 0
       },
       currentComment: '',
       showTab: false,
@@ -76,14 +76,12 @@ class App extends React.Component {
       if (song._id === id) {
         if (!song.notes) {
           this.state.mySongs[i].notes = [];
-          console.log(this.state.mySongs[i]);
         }
-       // this.setState({currentTab: song.content.text})
-        this.setState({currentSong: song}, 
-          this.setState({showTab: true},
-            this.setState({searchedSongs: []},
-              this.setState({showLibrary: false}))
-          )
+        this.setState({
+          currentSong: song,
+          showTab: true,
+          searchedSongs: [],
+          showLibrary: false}
         )
       }
     }
@@ -99,7 +97,6 @@ class App extends React.Component {
   }
 
   findHighlightedText(note) {
-    console.log('called')
 
     let sel = window.getSelection();
     let focus = sel.focusNode.parentNode.id;
@@ -109,7 +106,8 @@ class App extends React.Component {
     let tab = this.state.currentSong.content.text;
  
     RegExp.quote = function(str) {
-    return str.replace(/([.?*+^$[\]\\(){}|-])/g, "\\$1")};
+      return str.replace(/([.?*+^$[\]\\(){}|-])/g, "\\$1")
+    };
 
     var regExStart = new RegExp(RegExp.quote(start), "g");
     tab = tab.replace(regExStart, `<a><span id='notes_${this.state.currentSong.notes.length}' ><span id=${(Math.min(focus, anchor))}>`);
@@ -121,11 +119,13 @@ class App extends React.Component {
     editedSong.content.text = tab;
     editedSong.notes.push(note);
 
-    this.setState({currentSong: editedSong});
-
     let comments = this.state.commentNodes;
     comments.push(end);
-    this.setState({commentNodes: comments})
+
+    this.setState({
+      currentSong: editedSong,
+      commentNodes: comments
+    });
 
     $.ajax({
         type:'PUT',
