@@ -48,11 +48,11 @@ app.post('/addSong', function (req, res) {
 	    let counter = 0;
 	    let dirtyTab = tab.content.text;
 	    let cleanTab = dirtyTab.replace(/(?:\r\n|\r|\n)/g, `<br>`);
-	    var linesArray = cleanTab.split('<br>');
+	    let htmlArray = cleanTab.split('<br>');
 
-			var results = [];
-			for (var i = 0; i < linesArray.length; i++) {
-					var row = linesArray[i].split('');
+			let results = [];
+			for (var i = 0; i < htmlArray.length; i++) {
+					var row = htmlArray[i].split('');
 
 					for (var j = 0; j < row.length; j++) {
 						row[j] = `<span id=${counter}>${row[j]}</span>`;
@@ -64,9 +64,7 @@ app.post('/addSong', function (req, res) {
 
 	    results = results.join('<br>');
 
-	    linesArray = linesArray.join('<br>');
-
-	    //ADD A NOTES PROPERTY, SET TEXT PROPERT
+	    //ADD A NOTES PROPERTY, SET TEXT PROPERTY
 	    tab.content.text = results;
 	    tab.notes = [];
 	  	db.addNewSong(tab);
